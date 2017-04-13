@@ -1,9 +1,11 @@
 # ------------------------------------------------------
 # This code does the following:
-# 1. Read the csv data file into a Pandas data frame
+# 1. Read the CSV data file into a Pandas data frame
 # 2. Subset the data to get a smaller time period for analysis
 # 3. Plot the data with a line plot using Matplotlib
 # 4. Separate the data into toilet flows and other flows
+# Created by:  Jeff Horsburgh
+# Last updated: 4-13-2017
 # ------------------------------------------------------
 # Import the Pandas and Matplotlib packages
 import pandas as pd
@@ -12,16 +14,19 @@ from datetime import datetime
 
 # Set up some variables so they are easy to change
 # ------------------------------------------------
+# The script runs one building at a time, so set the file name to the data file
+# for one building and set the correct number of residents for that building
+dataPath = '/users/jeff/Documents/Working/Data/CampusWaterUse/'
 inputFileName = 'datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv'
-#inputFileName = 'datalog_Valley_View_Tower_2017-3-7_13-9-5.csv'
-outputFileName = 'processed_' + inputFileName
+# inputFileName = 'datalog_Valley_View_Tower_2017-3-7_13-9-5.csv'
+outputFileName = dataPath + 'processed_' + inputFileName
 # Number of residents for Mountain View Tower = 312
 # Number of residents for Valley View Tower = 242
 numResidents = 312.0
 
 # Read the CSV file into a Pandas data frame object
 # -------------------------------------------------
-df = pd.read_csv(inputFileName, header=1, sep=',', index_col=0, parse_dates=True,
+df = pd.read_csv(dataPath + inputFileName, header=1, sep=',', index_col=0, parse_dates=True,
                  infer_datetime_format=True, low_memory=False)
 
 # Get a subset of data in a new data frame to analyze
@@ -50,7 +55,6 @@ eventDates = []
 toiletEventCounter = 0
 
 # Loop through all of the data values in the flows series
-# TODO: Missing individual points after toilet events
 x = 0
 while x < (len(flows) - 60):  # End 60 values (one minute) short of the end of the flow series to not go out of bounds
     # Check to see if the next value (x + 1) is greater than the current value (x) AND that the difference between
@@ -83,13 +87,12 @@ while x < (len(flows) - 60):  # End 60 values (one minute) short of the end of t
                         if y >= 8 and flows[x + y + 2] < 3 and (flows[x + y + 2] > flows[x + y + 1]):
                             # The event is over and flows are going up again
                             endOfEvent = True
-                            # JSH
                             toiletEventFlag.append(0)
                             toiletEventFlows.append(0.0)
                             otherFlows.append(flows[x + y + 1])
                             totalFlows.append(flows[x + y + 1])
                             eventDates.append(flows.index[x + y + 1])
-                            # JSH
+
                             # Set the x index so the next flow value processed is the first value after the event
                             x += y + 1
                         else:
@@ -108,13 +111,12 @@ while x < (len(flows) - 60):  # End 60 values (one minute) short of the end of t
                     else:
                         # The event is over
                         endOfEvent = True
-                        # JSH
                         toiletEventFlag.append(0)
                         toiletEventFlows.append(0.0)
                         otherFlows.append(flows[x + y + 1])
                         totalFlows.append(flows[x + y + 1])
                         eventDates.append(flows.index[x + y + 1])
-                        # JSH
+
                         # Set the x index so the next flow value processed is the first value after the event
                         # But, check first to make sure that an event flow was actually added
                         if y > 0:  # It was an actual event
@@ -148,8 +150,9 @@ processedFlows = pd.DataFrame(
      })
 processedFlows.set_index('TimeStamp', inplace=True)
 
-#'''
+'''
 # Generate a plot of the data
+# Uncomment this code if you want to run a shorter time window and generate a plot
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 processedFlows['TotalFlow'].plot(color='blue', linestyle='solid', marker='o', label='Total flow rate (gpm)')
@@ -172,7 +175,7 @@ frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
 plt.show()
 plt.close()
-#'''
+'''
 
 # Print some totals for the entire monitoring period
 # --------------------------------------------------

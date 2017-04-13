@@ -5,15 +5,17 @@
 # then create cumulative data to compare the total volume
 # estimated using the different time steps. Finally,
 # create a cumulative volume line plot with all 4 lines -
-# one for each sampling interval
+# one for each sampling interval.
+# Created by:  Jeff Horsburgh
+# Last updated: 4-13-2017
 # ------------------------------------------------------
 import pandas
 import matplotlib.pyplot as plt
 
 # Read the CSV file into a Pandas data frame object
 # -------------------------------------------------
-# Check your file name to make sure it is the same as mine
-df = pandas.read_csv('datalog_Valley_View_Tower_2017-3-2_16-23-21.csv',
+dataPath = '/users/jeff/Documents/Working/Data/CampusWaterUse/'
+df = pandas.read_csv(dataPath + 'datalog_Valley_View_Tower_2017-3-7_13-9-5.csv',
                      header=1, sep=',', index_col=0, parse_dates=True,
                      infer_datetime_format=True, low_memory=False)
 
@@ -54,16 +56,16 @@ fig, ax = plt.subplots(1, 1)
 
 # Add each of the cumulative series to the plot
 df.plot(y='CumVol', ax=ax, kind='line', use_index=True,
-        linestyle='solid', ylim=[-0.5, 4000], label='1 s Data')
+        linestyle='solid', label='1 s Data')
 
 df_5s.plot(y='CumVol', ax=ax, kind='line', use_index=True,
-           linestyle='solid', ylim=[-0.5, 4000], label='5 s Data')
+           linestyle='solid', label='5 s Data')
 
 df_10s.plot(y='CumVol', ax=ax, kind='line', use_index=True,
-            linestyle='solid', ylim=[-0.5, 4000], label='10 s Data')
+            linestyle='solid', label='10 s Data')
 
 df_30s.plot(y='CumVol', ax=ax, kind='line', use_index=True,
-            linestyle='solid', ylim=[-0.5, 4000], label='30 s Data')
+            linestyle='solid', label='30 s Data')
 
 # Set the x and y-axis labels
 ax.set_ylabel('Cumulative Volume (gallons)')

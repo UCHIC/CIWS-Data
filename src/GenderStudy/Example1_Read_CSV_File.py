@@ -1,15 +1,17 @@
 # ------------------------------------------------------
-# Example of how to read the data file into a Pandas
+# Example of how to read the CSV data file into a Pandas
 # data frame and then get some simple characteristics
 # of the data frame.
+# Created by:  Jeff Horsburgh
+# Last updated: 4-13-2017
 # ------------------------------------------------------
 # Import the Pandas package - must be installed before you can use it
 import pandas
 
 # Read the CSV file into a Pandas data frame object
 # -------------------------------------------------
-# Check your file name to make sure it is the same as mine
-df = pandas.read_csv('datalog_Valley_View_Tower_2017-3-2_16-23-21.csv',
+dataPath = '/users/jeff/Documents/Working/Data/CampusWaterUse/'
+df = pandas.read_csv(dataPath + 'datalog_Valley_View_Tower_2017-3-7_13-9-5.csv',
                      header=1, sep=',', index_col=0, parse_dates=True,
                      infer_datetime_format=True, low_memory=False)
 

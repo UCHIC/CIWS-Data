@@ -8,7 +8,7 @@
 # already been run.
 #
 # This code does the following:
-# 1. Read the processed csv data files into a Pandas data frames
+# 1. Read the processed CSV data files into a Pandas data frames
 # 2. Aggregates the data to an hourly scale
 # 3. Plots the data with a line plot using Matplotlib
 # -------------------------------------------------------------------------
@@ -19,6 +19,7 @@ import numpy as np
 
 # Set up some variables so they are easy to change
 # ------------------------------------------------
+dataPath = '/users/jeff/Documents/Working/Data/CampusWaterUse/'
 womensFileName = 'processed_datalog_Valley_View_Tower_2017-3-7_13-9-5.csv'
 mensFileName = 'processed_datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv'
 numWomen = 242.0   # Number of residents in Valley View Tower
@@ -28,9 +29,9 @@ numMen = 312       # Number of residents in Mountain View Tower
 # Divide all of the values in the data frame by 60
 # to convert from gal/min to gal/s
 # -------------------------------------------------
-wdf = pd.read_csv(womensFileName, header=0, sep=',', index_col=0, parse_dates=True,
+wdf = pd.read_csv(dataPath + womensFileName, header=0, sep=',', index_col=0, parse_dates=True,
                   infer_datetime_format=True, low_memory=False) / 60
-mdf = pd.read_csv(mensFileName, header=0, sep=',', index_col=0, parse_dates=True,
+mdf = pd.read_csv(dataPath + mensFileName, header=0, sep=',', index_col=0, parse_dates=True,
                   infer_datetime_format=True, low_memory=False) / 60
 
 # First aggregate the incremental flow volumes to a total volume for each hourly time step
@@ -66,10 +67,10 @@ w_hourlyAvgOtherVol.plot(color='blue', linestyle='solid', marker='s',
                          label='Men\'s Other')
 m_hourlyAvgOtherVol.plot(color='red', linestyle='solid', marker='s',
                          label='Women\'s Other')
-#w_hourlyAvgTotalVol.plot(color='green', linestyle='solid', marker='s',
-#                         label='Men\'s Total')
-#m_hourlyAvgTotalVol.plot(color='purple', linestyle='solid', marker='s',
-#                         label='Women\'s Total')
+w_hourlyAvgTotalVol.plot(color='green', linestyle='solid', marker='s',
+                         label='Men\'s Total')
+m_hourlyAvgTotalVol.plot(color='purple', linestyle='solid', marker='s',
+                         label='Women\'s Total')
 ax.set_ylabel(' Average Volume (gal/person)')
 ax.set_xlabel('Hour of Day')
 ax.grid(True)
@@ -88,7 +89,7 @@ plt.show()
 plt.close()
 
 # Create a stacked bar plot of the hourly average flows
-# Example at: https://chrisalbon.com/python/matplotlib_stacked_bar_plot.html
+# Adapted from th example at: https://chrisalbon.com/python/matplotlib_stacked_bar_plot.html
 # --------------------------------------------------------------------------
 # First for the women:
 # Create the general blog and the "subplots" (i.e., the bars)
@@ -130,23 +131,22 @@ x = np.arange(13, 27, 1)
 y = np.arange(0, 24, 1)
 x, y = np.meshgrid(x, y)
 
-# z = w_hourlyToiletVol.values
 numRows = 24
 numColumns = 14
 # Toilet Use: Women's total goes up to about 0.75, men's total goes up to about 0.6
-#z = np.reshape(w_hourlyToiletVol.values, (numRows, numColumns), order='F')
-#z = np.reshape(m_hourlyToiletVol.values, (numRows, numColumns), order='F')
+# z = np.reshape(w_hourlyToiletVol.values, (numRows, numColumns), order='F')
+# z = np.reshape(m_hourlyToiletVol.values, (numRows, numColumns), order='F')
 # Other Use: Women's total goes up to about 1.1, men's total goes up to just over 1.1
-#z = np.reshape(w_hourlyOtherVol.values, (numRows, numColumns), order='F')
-#z = np.reshape(m_hourlyOtherVol.values, (numRows, numColumns), order='F')
+# z = np.reshape(w_hourlyOtherVol.values, (numRows, numColumns), order='F')
+# z = np.reshape(m_hourlyOtherVol.values, (numRows, numColumns), order='F')
 # Total Use: Women's total goes up to 1.6, men's total goes up to just over 1.2
 z = np.reshape(w_hourlyTotalVol.values, (numRows, numColumns), order='F')
-#z = np.reshape(m_hourlyTotalVol.values, (numRows, numColumns), order='F')
+# z = np.reshape(m_hourlyTotalVol.values, (numRows, numColumns), order='F')
 
 fig, ax = plt.subplots()
 im = ax.pcolormesh(x, y, z, vmin=z.min(), vmax=z.max())
 # im = ax.pcolormesh(x, y, z, vmin=0.0, vmax=1.1)
-# plt.axis([x.min(), x.max(), y.min(), y.max()])
+
 fig.colorbar(im).set_label('Water Use (gal/person)')
 
 ax.set_xlabel('Day')
