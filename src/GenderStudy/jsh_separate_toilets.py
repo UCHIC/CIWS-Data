@@ -17,12 +17,12 @@ from datetime import datetime
 # The script runs one building at a time, so set the file name to the data file
 # for one building and set the correct number of residents for that building
 dataPath = '/users/jeff/Documents/Working/Data/CampusWaterUse/'
-inputFileName = 'datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv'
-# inputFileName = 'datalog_Valley_View_Tower_2017-3-7_13-9-5.csv'
+# inputFileName = 'datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv'
+inputFileName = 'datalog_Valley_View_Tower_2017-3-7_13-9-5.csv'
 outputFileName = dataPath + 'processed_' + inputFileName
 # Number of residents for Mountain View Tower = 312
 # Number of residents for Valley View Tower = 242
-numResidents = 312.0
+numResidents = 242.0
 
 # Read the CSV file into a Pandas data frame object
 # -------------------------------------------------

@@ -4,8 +4,8 @@
 # Written by: Jeff Horsburgh
 # Last modified: 3-28-2017
 #
-# This script assumes that the script to disaggregate the toilet flows has
-# already been run.
+# NOTE: This script assumes that the script to disaggregate the toilet flows
+# has already been run.
 #
 # This code does the following:
 # 1. Read the processed CSV data files into a Pandas data frames
