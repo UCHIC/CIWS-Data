@@ -29,3 +29,5 @@ print(df.dtypes)  # Print a list of data types for each of the columns in the da
 
 print 'Done!'
 
+I added a new line that is going to cause this script to crash
+
