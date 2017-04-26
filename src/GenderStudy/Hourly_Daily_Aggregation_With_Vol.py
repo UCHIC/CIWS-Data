@@ -1,12 +1,14 @@
 import pandas
 import matplotlib.pyplot as plt
 
+dataPath = '/users/jeff/Documents/Working/Data/CampusWaterUse/'
+
 # Read the data files for Mountain View and Valley View towers
-df_mountainView = pandas.read_csv('datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv',
+df_mountainView = pandas.read_csv(dataPath + 'datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv',
                                   header=1, sep=',', index_col=0, parse_dates=True,
                                   infer_datetime_format=True, low_memory=False)
 
-df_valleyView = pandas.read_csv('datalog_Valley_View_Tower_2017-3-7_13-9-5.csv',
+df_valleyView = pandas.read_csv(dataPath + 'datalog_Valley_View_Tower_2017-3-7_13-9-5.csv',
                                 header=1, sep=',', index_col=0, parse_dates=True,
                                 infer_datetime_format=True, low_memory=False)
 

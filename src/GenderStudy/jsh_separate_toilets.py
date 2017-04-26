@@ -150,7 +150,7 @@ processedFlows = pd.DataFrame(
      })
 processedFlows.set_index('TimeStamp', inplace=True)
 
-'''
+"""
 # Generate a plot of the data
 # Uncomment this code if you want to run a shorter time window and generate a plot
 fig = plt.figure()
@@ -175,7 +175,7 @@ frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
 plt.show()
 plt.close()
-'''
+"""
 
 # Print some totals for the entire monitoring period
 # --------------------------------------------------
