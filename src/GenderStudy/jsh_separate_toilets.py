@@ -17,7 +17,7 @@ from datetime import datetime
 # The script runs one building at a time, so set the file name to the data file
 # for one building and set the correct number of residents for that building
 dataPath = '/users/jeff/Documents/Working/Data/CampusWaterUse/'
-# inputFileName = 'datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv'
+#inputFileName = 'datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv'
 inputFileName = 'datalog_Valley_View_Tower_2017-3-7_13-9-5.csv'
 outputFileName = dataPath + 'processed_' + inputFileName
 # Number of residents for Mountain View Tower = 312
@@ -188,13 +188,15 @@ delta = end - begin
 numDays = round(delta.total_seconds() / 86400.0, 0)
 print 'Total number of days analyzed: ' + str(numDays)
 
-# Get the number of toilet flush events and the number per resident per day
+# Get the number of toilet flush events, number per resident, and the number per resident per day
 print 'Total number of toilet flush events: ' + str(toiletEventCounter)
+print 'Toilet flush events per resident: ' + str(round(toiletEventCounter / numResidents, 2))
 print 'Toilet flush events per person per day: ' + str(round(toiletEventCounter / numResidents / numDays, 2))
 
 # Calculate the total volume used by toilet flushes
 totalFlushVolume = processedFlows['ToiletEventFlow'].sum() / 60
 print 'Total volume of toilet flushes (gal): ' + str(round(totalFlushVolume, 2))
+print 'Total volume of toilet flushes per resident (gal): ' + str(round(totalFlushVolume / numResidents, 2))
 print 'Total volume of toilet flushes per person per day (gal): ' + str(round(totalFlushVolume / numResidents / numDays, 2))
 
 # Calculate the average volume used per toilet flush
@@ -204,11 +206,14 @@ print 'Volume per toilet flush (gal): ' + str(round(flushVolume, 2))
 # Calculate the total volume used by uses other than toilets
 totalOtherVolume = processedFlows['OtherFlow'].sum() / 60
 print 'Total volume of uses other than toilets (gal): ' + str(round(totalOtherVolume, 2))
-print 'Total volume of uses other than toilets per person per day (gal): ' + str(round(totalOtherVolume / numResidents / numDays, 2))
+print 'Total volume of uses other than toilets per resident (gal): ' + str(round(totalOtherVolume / numResidents, 2))
+print 'Total volume of uses other than toilets per person per day (gal): ' + \
+      str(round(totalOtherVolume / numResidents / numDays, 2))
 
 # Calculate the total volume of water used
 totalVolume = processedFlows['TotalFlow'].sum() / 60
 print 'Total volume of water used (gal): ' + str(round(totalVolume, 2))
+print 'Total volume of water used per resident (gal): ' + str(round(totalVolume / numResidents))
 print 'Total volume of water used per person per day (gal): ' + str(round(totalVolume / numResidents / numDays, 2))
 
 # Write out the data to a processed data file
