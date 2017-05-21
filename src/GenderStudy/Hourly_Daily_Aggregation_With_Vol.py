@@ -1,7 +1,7 @@
 import pandas
 import matplotlib.pyplot as plt
 
-dataPath = '/users/jeff/Documents/Working/Data/CampusWaterUse/'
+dataPath = 'C:\Dev\\'
 
 # Read the data files for Mountain View and Valley View towers
 df_mountainView = pandas.read_csv(dataPath + 'datalog_Mountain_View_Tower_2017-3-3_15-33-30.csv',
@@ -28,17 +28,28 @@ df_subValleyView = df_valleyView[beginDate:endDate]
 df_subMountainView['CumVol'] = df_subMountainView.FlowRate.cumsum() * 1.0 / 60.0
 df_subValleyView['CumVol'] = df_subValleyView.FlowRate.cumsum() * 1.0 / 60.0
 
+mountainViewVolume = df_subMountainView['CumVol'].iloc[-1]
+valleyViewVolume = df_subValleyView['CumVol'].iloc[-1]
+
+
 # Print the total volume per building
 print 'The total volume based upon 1 second flow data for Mountain View Tower is: ' + \
-      str(df_subMountainView['CumVol'].iloc[-1]) + 'gallons'
-print 'The total volume based upon 1 second flow data for Valley View Tower is: ' +\
-      str(df_subValleyView['CumVol'].iloc[-1]) + 'gallons'
+       str(mountainViewVolume) + 'gallons'
+print 'The total volume based upon 1 second flow data for Valley View Tower is: ' + \
+       str(valleyViewVolume) + 'gallons'
 
 # Standardize and print total volume of water used in each building per resident
 print 'The total volume based upon 1 second flow data flow for Mountain View Tower per resident is: ' + \
-      str(df_subMountainView['CumVol'].iloc[-1]/mountainViewResidents) + 'gallons'
+       str(mountainViewVolume / mountainViewResidents) + 'gallons'
 print 'The total volume based upon 1 second flow data flow for Mountain View Tower per resident is: ' + \
-      str(df_subValleyView['CumVol'].iloc[-1]/valleyViewResidents) + 'gallons'
+       str(valleyViewVolume / valleyViewResidents) + 'gallons'
+
+#Determine and print the percentage of total usage by each building
+print 'The percentage of water used by Mountain View Tower during the two week period is: ' + \
+       str(mountainViewVolume / (mountainViewVolume + valleyViewVolume) * 100) + '%'
+print 'The percentage of water used by Valley View Tower during the two week period is: ' + \
+       str(valleyViewVolume / (mountainViewVolume + valleyViewVolume) * 100) + '%'
+
 
 # Resample the data subset to hourly by summing the incremental volumes
 hourlyTotVolMountain = df_subMountainView['IncrementalVolume'].resample(rule='1H', base=0).sum()
@@ -52,14 +63,43 @@ dailyTotVolValley = df_subValleyView['IncrementalVolume'].resample(rule='1D', ba
 hourlyAvgVolMountain = hourlyTotVolMountain.groupby(hourlyTotVolMountain.index.hour).mean()
 hourlyAvgVolValley = hourlyTotVolValley.groupby(hourlyTotVolValley.index.hour).mean()
 
+
 # Normalize the data for each hour per resident
 hourlyAvgVolMountainPerRes = hourlyAvgVolMountain / mountainViewResidents
 hourlyAvgVolValleyPerRes = hourlyAvgVolValley / valleyViewResidents
 
-# Normalize the data for each day per resident
+#Create a dataframe that outputs the hourly usages per resident along with percentage of the two building usage
+#per resident is being consumed by each for that hour
+percentOfUsageMountain = hourlyAvgVolMountainPerRes / (hourlyAvgVolMountainPerRes + hourlyAvgVolValleyPerRes) * 100
+percentOfUsageValley = hourlyAvgVolValleyPerRes / (hourlyAvgVolMountainPerRes + hourlyAvgVolValleyPerRes) * 100
+listOfHourlyAveragesAndPercents = pandas.concat([hourlyAvgVolMountainPerRes, hourlyAvgVolValleyPerRes,\
+                                                 percentOfUsageMountain, percentOfUsageValley], axis=1,)
+
+#I attempt to change the column labels but to no avail
+#listOfHourlyAveragesAndPercentsWColumns = listOfHourlyAveragesAndPercents(listOfHourlyAveragesAndPercents,
+#                                                            columns = ['Mountain View Hourly Averages',
+#                                                            'Valley View Hourly Averages',
+#                                                            'Mountain View Hourly Percents',
+#                                                            'Valley View Hourly Percents'])
+#Look at the youth take notes for my question regarding groupby indexing
+#hourlyAvgVolMountainPerResWIndex = hourlyAvgVolMountainPerRes(index = ['0','1','2','3','4','5','6','7','8','9',\
+#                                                                       '10','11','12','13','14','15', \
+#                                                                       '16','17','18','19','20','21','22','23','24'])
+
+
+#Normalize the data for each day per resident
 dailyTotVolMountainPerRes = dailyTotVolMountain / mountainViewResidents
 dailyTotVolValleyPerRes = dailyTotVolValley / valleyViewResidents
 
+#Set column labels in what I consider to be a slightly sketchy manner
+print "     Mountain Volume     Valley Volume     Mountain Percent      Valley Percent"
+
+#Print the dataframe
+print listOfHourlyAveragesAndPercents
+
+
+
+"""
 # Generate a plot of the hourly average flow data with one line for men and one for women
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
@@ -106,6 +146,6 @@ frame.set_facecolor('0.95')
 # Make sure the plot displays
 fig.set_tight_layout(True)
 plt.show()
-
+"""
 
 
