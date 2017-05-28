@@ -1,6 +1,7 @@
 import pandas
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as plticker
 
 dataPath = 'C:\Dev\\'
 
@@ -102,8 +103,8 @@ hourlyAvgVolValleyPerRes = hourlyAvgVolValleyPerRes.cumsum()
 #Generate a plot that shows the aggregated hourly volumes summed up over the 24 hour time period
 cumHourlyVolumeMountain = hourlyAvgVolMountainPerRes.cumsum()
 cumHourlyVolumeValley = hourlyAvgVolValleyPerRes.cumsum()
-fig = plt.figure()
-ax = fig.add_subplot(1, 1, 1)
+
+fig, ax = plt.subplots()
 
 cumHourlyVolumeMountain.plot(kind='line', title='Cumulative Volume Over 24 Hours',
                              legend='True', linestyle='solid', ylim=[-0.5, 200], label='Men\'s Sum',
@@ -112,19 +113,34 @@ cumHourlyVolumeValley.plot(kind='line', title='Cumulative Volume Over 24 Hours',
                            legend='True', linestyle='solid', ylim=[-0.5, 200], label='Women\'s Sum',
                            color='purple')
 
+#Spacing between each line
+loc = plticker.MultipleLocator()
+ax.xaxis.set_major_locator(loc)
+
+#Change the styling and spacing of gridlines and ticklines
+ticklines = ax.get_xticklines() + ax.get_yticklines()
+gridlines = ax.get_xgridlines() + ax.get_ygridlines()
+ticklabels = ax.get_xticklabels() + ax.get_yticklabels()
+
+for line in ticklines:
+    line.set_linewidth(1)
+
+for line in gridlines:
+    line.set_linestyle('-.')
+
+for label in ticklabels:
+    label.set_color('r')
+    label.set_fontsize('medium')
+
 # Set the x and y-axis labels
 ax.set_xlabel('Time')
 ax.set_ylabel('Cumulative Volume')
-ax.grid(True)
+ax.grid(which='major', axis='both', linestyle='-')
 
 #Make sure the plot displays
 plt.show()
-plt.close()
-print 'Done!'
 
 
-
-"""
 
 # Resample the data subset to daily by summing the incremental volumes
 dailyTotVolMountain = df_subMountainView['IncrementalVolume'].resample(rule='1D', base=0).sum()
@@ -133,6 +149,7 @@ dailyTotVolValley = df_subValleyView['IncrementalVolume'].resample(rule='1D', ba
 #Normalize the data for each day per resident
 dailyTotVolMountainPerRes = dailyTotVolMountain / mountainViewResidents
 dailyTotVolValleyPerRes = dailyTotVolValley / valleyViewResidents
+
 
 # Generate a plot of the daily total flow data with one line for men and one for women
 fig = plt.figure()
@@ -146,7 +163,7 @@ ax.set_xlabel('Day')
 ax.grid(True)
 ax.set_title('Daily Total Flow Volume Per Resident')
 
-# Add a legend with some customizations
+# Add a legend with some customizations in position and appearance
 legend = ax.legend(loc='upper left', shadow=True)
 
 # Create a frame around the legend.
@@ -155,8 +172,8 @@ frame.set_facecolor('0.95')
 
 # Make sure the plot displays
 fig.set_tight_layout(True)
-plt.show()"""
-
+plt.show()
+print 'Done!'
 
 
 
