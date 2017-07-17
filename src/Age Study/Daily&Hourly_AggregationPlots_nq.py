@@ -8,11 +8,31 @@ df_SnowHall = pandas.read_csv(dataPath + 'processed_datalog_Snow_Hall_2017-6-6_1
                      header=1, sep=',', index_col=0, parse_dates=True,
                     infer_datetime_format=True, low_memory=False,)
 
-# df_SnowHall['FlowRate'] = df_SnowHall['FlowRate'] * 5
-# df_SnowHall['IncrementalVolume'] = df_SnowHall['IncrementalVolume'] * 5
-# df_SnowHall['TotalizedVolume'] = df_SnowHall['TotalizedVolume'] * 5
+df_SnowHall['FlowRate'] = df_SnowHall['FlowRate'] * 5
+df_SnowHall['IncrementalVolume'] = df_SnowHall['IncrementalVolume'] * 5
+df_SnowHall['TotalizedVolume'] = df_SnowHall['TotalizedVolume'] * 5
+
+df_SnowHall2 = pandas.read_csv(dataPath + 'datalog_Snow_Hall_2017-6-28_18-27-40.csv',
+                     header=1, sep=',', index_col=0, parse_dates=True,
+                    infer_datetime_format=True, low_memory=False,)
+
+df_SnowHall3 = pandas.read_csv(dataPath + 'datalog_Snow_Hall_2017-7-11_12-40-23.csv',
+                     header=1, sep=',', index_col=0, parse_dates=True,
+                    infer_datetime_format=True, low_memory=False,)
 
 df_BlueSquareB = pandas.read_csv(dataPath + 'datalog_Blue_Square_B_2017-6-6_12-52-17.csv',
+                                 header=1, sep=',', index_col=0, parse_dates=True,
+                                 infer_datetime_format=True, low_memory=False)
+
+df_BlueSquareB2 = pandas.read_csv(dataPath + 'datalog_Blue_Square_B_2017-6-28_18-30-56.csv',
+                                 header=1, sep=',', index_col=0, parse_dates=True,
+                                 infer_datetime_format=True, low_memory=False)
+
+df_BlueSquareB3 = pandas.read_csv(dataPath + 'datalog_Blue_Square_B_2017-7-5_15-44-43.csv',
+                                 header=1, sep=',', index_col=0, parse_dates=True,
+                                 infer_datetime_format=True, low_memory=False)
+
+df_BlueSquareB4 = pandas.read_csv(dataPath + 'datalog_Blue_Square_B_2017-7-11_12-38-40.csv',
                                  header=1, sep=',', index_col=0, parse_dates=True,
                                  infer_datetime_format=True, low_memory=False)
 
@@ -20,14 +40,22 @@ df_BlueSquareC = pandas.read_csv(dataPath + 'datalog_Blue_Square_C_2017-6-6_12-5
                                  header=1, sep=',', index_col=0, parse_dates=True,
                                  infer_datetime_format=True, low_memory=False)
 
+df_BlueSquareC2 = pandas.read_csv(dataPath + 'datalog_Blue_Square_C_2017-6-28_18-29-50.csv',
+                                 header=1, sep=',', index_col=0, parse_dates=True,
+                                 infer_datetime_format=True, low_memory=False)
+
+df_BlueSquareC3 = pandas.read_csv(dataPath + 'datalog_Blue_Square_C_2017-7-11_12-39-40.csv',
+                                 header=1, sep=',', index_col=0, parse_dates=True,
+                                 infer_datetime_format=True, low_memory=False)
+
 #If data was collected between March 12th 2017 and November 5th 2017 account for daylight savings time
-# df_SnowHall.index = df_SnowHall.index + datetime.timedelta(hours=1)
+df_SnowHall.index = df_SnowHall.index + datetime.timedelta(hours=1)
 df_BlueSquareB.index = df_BlueSquareB.index + datetime.timedelta(hours=1)
 df_BlueSquareC.index = df_BlueSquareC.index + datetime.timedelta(hours=1)
 
 #Date Range
-beginDate = '2017-06-07 0:00:00'
-endDate = '2017-06-20 23:59:59'
+beginDate = '2017-06-07 00:00:00'
+endDate = '2017-07-17 07:59:59'
 
 #Number of Residents per Building
 SnowResidents = 68
@@ -93,7 +121,7 @@ ax1.set_ylabel('Volume (gal)')
 ax1.set_xlabel('Hour of Day')
 ax1.grid(True)
 ax1.set_title('Hourly Average Volume Per Resident')
-legend = ax1.legend(loc='upper right', shadow=True)
+legend = ax1.legend(loc='best', shadow=True)
 frame = legend.get_frame()
 frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
@@ -105,7 +133,7 @@ ax2.set_ylabel('Volume (gal)')
 ax2.set_xlabel('Hour of Day')
 ax2.grid(True)
 ax2.set_title('Hourly Average Volume Per Resident')
-legend = ax2.legend(loc='upper right', shadow=True)
+legend = ax2.legend(loc='best', shadow=True)
 frame = legend.get_frame()
 frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
@@ -117,7 +145,7 @@ ax3.set_ylabel('Volume (gal)')
 ax3.set_xlabel('Hour of Day')
 ax3.grid(True)
 ax3.set_title('Hourly Average Volume Per Resident')
-legend = ax3.legend(loc='upper right', shadow=True)
+legend = ax3.legend(loc='best', shadow=True)
 frame = legend.get_frame()
 frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
@@ -133,7 +161,7 @@ ax4.set_ylabel('Volume (gal)')
 ax4.set_xlabel('Hour of Day')
 ax4.grid(True)
 ax4.set_title('Hourly Average Volume Per Resident')
-legend = ax4.legend(loc='upper right', shadow=True)
+legend = ax4.legend(loc='best', shadow=True)
 frame = legend.get_frame()
 frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
@@ -148,7 +176,7 @@ ax1.set_ylabel('Volume (gal)')
 ax1.set_xlabel('Day')
 ax1.grid(True)
 ax1.set_title('Daily Average Volume Per Resident')
-legend = ax1.legend(loc='upper left', shadow=True)
+legend = ax1.legend(loc='best', shadow=True)
 frame = legend.get_frame()
 frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
@@ -160,7 +188,7 @@ ax2.set_ylabel('Volume (gal)')
 ax2.set_xlabel('Day')
 ax2.grid(True)
 ax2.set_title('Daily Average Volume Per Resident')
-legend = ax2.legend(loc='upper left', shadow=True)
+legend = ax2.legend(loc='best', shadow=True)
 frame = legend.get_frame()
 frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
@@ -172,7 +200,7 @@ ax3.set_ylabel('Volume (gal)')
 ax3.set_xlabel('Day')
 ax3.grid(True)
 ax3.set_title('Daily Average Volume Per Resident')
-legend = ax3.legend(loc='upper left', shadow=True)
+legend = ax3.legend(loc='best', shadow=True)
 frame = legend.get_frame()
 frame.set_facecolor('0.95')
 fig.set_tight_layout(True)
@@ -188,7 +216,7 @@ ax4.set_ylabel('Volume (gal)')
 ax4.set_xlabel('Day')
 ax4.grid(True)
 ax4.set_title('Daily Average Volume Per Resident')
-legend = ax4.legend(loc='upper left', shadow=True)
+legend = ax4.legend(loc='best', shadow=True)
 frame = legend.get_frame()
 frame.set_facecolor('0.95')
 fig.set_tight_layout(True)

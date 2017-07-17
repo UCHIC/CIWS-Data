@@ -1,12 +1,11 @@
 import pandas
 import datetime
 
-
 dataPath = '/Users/nikki/Dev/CIWS-Data/src/Age Study/'
 inputFileName = 'datalog_Snow_Hall_2017-6-6_12-52-2.csv'
 df_SnowHall = pandas.read_csv(dataPath + inputFileName,
                               header=1, sep=',', index_col=0, parse_dates=True,
-                              infer_datetime_format=True, low_memory=False, lineterminator='\n')
+                              infer_datetime_format=True, low_memory=False)
 
 outputFileName = dataPath + 'processed_' + inputFileName
 
