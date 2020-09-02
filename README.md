@@ -5,6 +5,6 @@ CIWS is a project funded by the U.S. National Science Foundation to develop cybe
 This repository contains source code for visualization and analysis for smart metering data collected by researchers at Utah Water Research Laboratory at Utah State University.
 
 ## Sponsors and Credits
-This material is based on work supported by National Science Foundation Grant CBET [1552444](http://www.nsf.gov/awardsearch/showAward?AWD_ID=1552444). Any opinions, findings, and conclusions or recommendations expressed are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.
+[![NSF-1552444](https://img.shields.io/badge/NSF-1552444-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1552444)
 
-![NSF](/doc/images/nsf.gif)
+This material is based on work supported by National Science Foundation Grant CBET [1552444](http://www.nsf.gov/awardsearch/showAward?AWD_ID=1552444). Any opinions, findings, and conclusions or recommendations expressed are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.
